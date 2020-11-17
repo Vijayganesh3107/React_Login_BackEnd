@@ -7,12 +7,17 @@ const mongoclient=mongodb.MongoClient;
 const shortid=require("shortid");
 const bcrypt=require("bcrypt");
 const nodemailer = require("nodemailer");
-let url="mongodb+srv://admin:dFU1aOAaxzbWv0Oz@cluster0.whuqd.mongodb.net/assignment?retryWrites=true&w=majority"
+let url=process.env.DB_URL;
 const cors=require("cors");
 app.use(cors());
 var jwt=require("jsonwebtoken");
+require("dotenv").config();
 
 require("dotenv").config();
+
+app.get("/",async(req,res)=>{
+    res.send("Hello World")
+})
 
 app.get("/getUrl/:email",async(req,res)=>{
     var client=await mongoclient.connect(url,{ useUnifiedTopology: true });
@@ -67,15 +72,15 @@ app.post("/user/signup",async(req,res)=>{
             service:"gmail",
             auth:{
                 user:"vijay.ganeshp95@gmail.com",
-                pass:"vIjay@31071995"
+                pass:process.env.MAIL_PASS
             }
         })
         var mailoptions = {
             from: `vijay.ganeshp95@gmail.com`,
-            to: `vijay.ganeshp95@gmail.com`,
+            to: `${req.body.email}`,
             subject: `Secret Mail from nodejs`,
             html: `<div>Please click the below link to activate your account.This link will be valid for 24hrs only
-                    <a href="http://localhost:3000/signup/auth/${req.body.email}">http://localhost:3000/users/auth/</a></div>`,
+                    <a href="https://react-login-urlshortner.netlify.app/signup/auth/${req.body.email}">http://localhost:3000/users/auth/</a></div>`,
           };
           transporter.sendMail(mailoptions, (err, info) => {
             if (err) {
@@ -173,15 +178,15 @@ app.post("/forgetpassword",async(req,res)=>{
             service:"gmail",
             auth:{
                 user:"vijay.ganeshp95@gmail.com",
-                pass:"vIjay@31071995"
+                pass:process.env.MAIL_PASS
             }
         })
         var mailoptions = {
             from: `vijay.ganeshp95@gmail.com`,
-            to: `vijay.ganeshp95@gmail.com`,
+            to: `${req.body.email}`,
             subject: `Secret Mail from nodejs`,
             html: `<div>Please click the below link to activate your account.This link will be valid for 24hrs only
-                    <a href="http://localhost:3000/changepassword/${req.body.email}"    >http://localhost:3000/users/auth/</a></div>`,
+                    <a href="https://react-login-urlshortner.netlify.app/changepassword/${req.body.email}"    >http://localhost:3000/users/auth/</a></div>`,
           };
           transporter.sendMail(mailoptions, (err, info) => {
             if (err) {
