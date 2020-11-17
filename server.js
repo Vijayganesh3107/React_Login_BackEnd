@@ -78,9 +78,9 @@ app.post("/user/signup",async(req,res)=>{
         var mailoptions = {
             from: `vijay.ganeshp95@gmail.com`,
             to: `${req.body.email}`,
-            subject: `Secret Mail from nodejs`,
-            html: `<div>Please click the below link to activate your account.This link will be valid for 24hrs only
-                    <a href="https://react-login-urlshortner.netlify.app/signup/auth/${req.body.email}">http://localhost:3000/users/auth/</a></div>`,
+            subject: `Activation Mail`,
+            html: `<div>Please click the below link to activate your account.This link will be valid for 24hrs only.Click
+                    <a href="https://react-login-urlshortner.netlify.app/signup/auth/${req.body.email}">here</a> to activate your account</div> `,
           };
           transporter.sendMail(mailoptions, (err, info) => {
             if (err) {
@@ -184,9 +184,8 @@ app.post("/forgetpassword",async(req,res)=>{
         var mailoptions = {
             from: `vijay.ganeshp95@gmail.com`,
             to: `${req.body.email}`,
-            subject: `Secret Mail from nodejs`,
-            html: `<div>Please click the below link to activate your account.This link will be valid for 24hrs only
-                    <a href="https://react-login-urlshortner.netlify.app/changepassword/${req.body.email}"    >http://localhost:3000/users/auth/</a></div>`,
+            subject: `Reset Password Link`,
+            html: `<div> <a href="https://react-login-urlshortner.netlify.app/changepassword/${req.body.email}"    >Click here</a> to reset the password </div>`,
           };
           transporter.sendMail(mailoptions, (err, info) => {
             if (err) {
